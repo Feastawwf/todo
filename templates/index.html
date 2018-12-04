@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}待办事项程序{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">ToDo</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">首页</a></li>
+            <li><a href="#">日程</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    事项 <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">啦啦啦</a></li>
+                    <li><a href="#">哈哈哈</a></li>
+                    <li><a href="#">嘻嘻嘻</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">落花流水有请</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">山水之间</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    </div>
+</nav>
+
+<div id="todo-add" class="container">
+  <form action="{{ url_for('add') }}" method="post" class="form float-right">
+    <textarea rows=5 cols=50 placeholder="请输入待办事项"name="content"></textarea>
+    <button type="submit" class="btn btn-success btn-lg " style="height: 60px">添加哦</button>
+  </form>
+</div>
+
+<hr>
+<div id="todo-list" class="container">
+  <table style="border: 2px solid blue;" class="table table-striped">
+    <th>
+      <td>状态</td>
+      <td>内容</td>
+      <td>删除</td>
+      <td>完成</td>
+    </th>
+    {% for todo in todo_list %}
+      <tr>
+        {% if todo.status == 0 %}
+          <td bgcolor="aqua">未完成</td>
+        {% elif todo.status == 1 %}
+          <td bgcolor="#7fff00">完成</td>
+        {% endif %}
+        <td>{{ todo.status }}</td>
+        <td>{{ todo.content }}</td>
+        <td><a href="{{ url_for('delete',_id=todo._id) }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+        <td><a href="{{ url_for('finish',_id=todo._id) }}"><span class="glyphicon glyphicon-ok"></span></a></td>
+
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
